@@ -502,6 +502,12 @@ public class ChuteBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 		BlockPos pos = this.worldPosition.relative(side);
 		if (level == null)
 			return LazyOptional.empty();
+		//Custom composter behavior
+		if (level.getBlockState(pos).getBlock() instanceof ComposterBlock) {
+			ComposterItemHandler handler = new ComposterItemHandler(level, pos, side.getOpposite());
+			return LazyOptional.of(() -> handler);
+		}
+		
 		BlockEntity be = level.getBlockEntity(pos);
 		if (be == null)
 			return LazyOptional.empty();
