@@ -40,9 +40,11 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
+import net.minecraft.world.WorldlyContainerHolder;
 import net.minecraft.world.Containers;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -503,8 +505,16 @@ public class ChuteBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 		if (level == null)
 			return LazyOptional.empty();
 		BlockEntity be = level.getBlockEntity(pos);
-		if (be == null)
+		if (be == null) {
+			// Block-entity-less inventories (vanilla composter): wrap the WorldlyContainer
+			if (level.getBlockState(pos)
+				.getBlock() instanceof WorldlyContainerHolder) {
+				Level world = level;
+				Direction face = side.getOpposite();
+				return LazyOptional.of(() -> new WorldlyContainerHolderHandler(world, pos, face));
+			}
 			return LazyOptional.empty();
+		}
 		if (be instanceof ChuteBlockEntity) {
 			if (side != Direction.DOWN || !(be instanceof SmartChuteBlockEntity) || getItemMotion() > 0)
 				return LazyOptional.empty();
