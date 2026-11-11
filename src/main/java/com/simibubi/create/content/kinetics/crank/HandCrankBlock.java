@@ -21,6 +21,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -115,6 +116,15 @@ public class HandCrankBlock extends DirectionalKineticBlock
 	public BlockState updateShape(BlockState pState, Direction pDirection, BlockState pNeighborState,
 		LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pNeighborPos) {
 		updateWater(pLevel, pState, pCurrentPos);
+
+		// Support block changed or was removed (e.g. a saw dismantled with a wrench):
+		// return air so the crank breaks and drops its item (same pattern as torches/buttons).
+		if (pDirection == pState.getValue(FACING)
+			.getOpposite()
+			&& pNeighborState.getCollisionShape(pLevel, pNeighborPos)
+				.isEmpty())
+			return Blocks.AIR.defaultBlockState();
+
 		return pState;
 	}
 
