@@ -74,6 +74,10 @@ public class CreateHatArmorLayer<T extends LivingEntity, M extends EntityModel<T
 				ms.translate(info.offset().x() / 16.0F, (cube.minY - cube.maxY + info.offset().y()) / 16.0F, info.offset().z() / 16.0F);
 				float max = Math.max(cube.maxX - cube.minX, cube.maxZ - cube.minZ) / 8.0F * info.scale();
 				ms.scale(max, max, max);
+			} else {
+				// head part has no cubes of its own: lift by head height (8px) manually
+				ms.translate(info.offset().x() / 16.0F, info.offset().y() / 16.0F, info.offset().z() / 16.0F);
+				ms.scale(info.scale(), info.scale(), info.scale());
 			}
 
 			ms.scale(1, -1, -1);
