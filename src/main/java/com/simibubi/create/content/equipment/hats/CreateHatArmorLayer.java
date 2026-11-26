@@ -8,7 +8,7 @@ import com.simibubi.create.content.trains.schedule.hat.TrainHatInfo;
 import com.simibubi.create.content.trains.schedule.hat.TrainHatInfoReloadListener;
 import com.simibubi.create.foundation.mixin.accessor.AgeableListModelAccessor;
 
-import com.simibubi.create.compat.Changed;
+import com.simibubi.create.compat.changed.Changed;
 
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import dev.engine_room.flywheel.lib.transform.TransformStack;
