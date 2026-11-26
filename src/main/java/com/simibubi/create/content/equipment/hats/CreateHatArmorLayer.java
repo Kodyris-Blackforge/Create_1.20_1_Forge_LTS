@@ -8,6 +8,8 @@ import com.simibubi.create.content.trains.schedule.hat.TrainHatInfo;
 import com.simibubi.create.content.trains.schedule.hat.TrainHatInfoReloadListener;
 import com.simibubi.create.foundation.mixin.accessor.AgeableListModelAccessor;
 
+import com.simibubi.create.compat.Changed;
+
 import dev.engine_room.flywheel.lib.model.baked.PartialModel;
 import dev.engine_room.flywheel.lib.transform.TransformStack;
 import net.createmod.catnip.render.CachedBuffers;
@@ -41,11 +43,15 @@ public class CreateHatArmorLayer<T extends LivingEntity, M extends EntityModel<T
 		if (hat == null)
 			return;
 
+		LivingEntity body = Changed.resolveBody(entity);
+
 		M entityModel = getParentModel();
 		ms.pushPose();
 
 		var msr = TransformStack.of(ms);
-		TrainHatInfo info = TrainHatInfoReloadListener.getHatInfoFor(entity);
+		TrainHatInfo info = TrainHatInfoReloadListener.hasInfoFor(body)
+				? TrainHatInfoReloadListener.getHatInfoFor(body)
+				: TrainHatInfoReloadListener.getHatInfoFor(entity);
 		List<ModelPart> partsToHead = new ArrayList<>();
 
 		if (entityModel instanceof AgeableListModel<?> model) {
