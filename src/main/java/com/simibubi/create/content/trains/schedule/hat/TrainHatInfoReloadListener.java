@@ -57,4 +57,7 @@ public class TrainHatInfoReloadListener {
 
 		return ENTITY_INFO_MAP.getOrDefault(entity.getType(), DEFAULT);
 	}
+	public static boolean hasInfoFor(Entity entity) {
+		return ENTITY_INFO_MAP.containsKey(entity.getType());
+	}
 }
