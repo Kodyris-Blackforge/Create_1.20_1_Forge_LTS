@@ -1,4 +1,4 @@
-package com.simibubi.create.compat;
+package com.simibubi.create.compat.changed;
 
 import net.ltxprogrammer.changed.util.EntityUtil;
 import net.minecraft.world.entity.LivingEntity;
